@@ -1,0 +1,5 @@
+1. Pemain akan disuruh memilih mode permainan yaitu pemain vs pemain , dan pemain vs komputer
+2. Jika pemain memilih mode pemain vs komputer maka akan disediakan 3 level yaitu level 1 berukuran 3x3, level 2 berukuran 6x6, level 3 berukuran 9x9. Dan jika pemain memilih mode pemain vs pemain maka papan permainan akan berukuran 9x9
+Dalam permainan pemain diberi pilihan untuk meletakan huruf S maupun O pada sebuah kotak kosong
+3. Jika seorang pemain dapat membuat Urutan SOS baik itu vertikal, horizontal, ataupun diagonal maka pemain tersebut akan mendapatkan poin
+4. Pemain yang mendapat poin lebih banyak maka akan memenangkan pertandingan
