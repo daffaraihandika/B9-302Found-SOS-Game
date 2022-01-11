@@ -33,7 +33,7 @@ void tampilanDraw();		//Modul ini bertujuan untuk menampilkan kondisi ketika tid
 void howToPlay();			//Modul ini bertujuan untuk menampilkan how to play yang diambil dari file How To Play.txt	
 void papanSOS();			//Modul ini bertujuan untuk menampilkan papan permainan SOS
 void scoreBoard();			//Modul ini bertujuan untuk menampilkan papan skor pada permainan SOS
-void resetBoard(int n);		//Modul ini bertujuan untuk menginsialisasi seluruh kotak yang ada pada papan sos dengan karakter spasi 
+void resetBoard();			//Modul ini bertujuan untuk menginsialisasi seluruh kotak yang ada pada papan sos dengan karakter spasi 
 void prosesInGamePvP();		//Modul ini bertujuan untuk membuat proses alur permainan game SOS pada mode player vs player
 void prosesInGamePvC();		//Modul ini bertujuan untuk membuat proses alur permainan game SOS pada mode player vs computer
 void InputNameFromUser1();	//Modul ini digunakan untuk menginputkan nama pemain jika user memilih mode permainan player vs komputer
@@ -87,7 +87,7 @@ int main() {
 						if(OptionFromUser == 1){
 							n = 3;
 							scoreBoard();
-							resetBoard(n);
+							resetBoard();
 							prosesInGamePvC();
 							gameOver();
 							hasilPertandingan();													
@@ -95,7 +95,7 @@ int main() {
 						}else if(OptionFromUser == 2){
 							n = 5;
 							scoreBoard();
-			  				resetBoard(n);
+			  				resetBoard();
 							prosesInGamePvC();
 							gameOver();
 							hasilPertandingan();
@@ -103,7 +103,7 @@ int main() {
 						}else if(OptionFromUser == 3){
 							n = 7;
 							scoreBoard();
-			  				resetBoard(n);
+			  				resetBoard();
 							prosesInGamePvC();
 							gameOver();
 							hasilPertandingan();
@@ -116,7 +116,7 @@ int main() {
 					scores[1] = 0;
 		  			n = 7;
 		  			scoreBoard();
-		  			resetBoard(n);
+		  			resetBoard();
 					prosesInGamePvP();
 					gameOver();
 					hasilPertandingan();					
@@ -275,7 +275,7 @@ Modul ini bertujuan untuk menginsialisasi seluruh kotak yang ada pada papan sos 
 I.S : seluruh kotak yang ada pada papan sos belum diinisialisasi dengan karakter spasi
 F.S : seluruh kotak yang ada pada papan sos diinisialisasi sudah diinisialisasi dengan karakter spasi 
 ======================================================================================================*/
-void resetBoard(int n){
+void resetBoard(){
 	int i,j;
 	for( i=0; i<n; i++){
 		for( j=0; j<n; j++){
@@ -435,7 +435,8 @@ int takeInput() {
 	switch (sos[sRow - 1][sCol - 1]) {
 
 	case 'S':
-	case 'O':   printf("\xaf\xaf Invalid position!!\n\xaf\xaf Press any key to continue!!");
+	case 'O':   
+		printf("\xaf\xaf Invalid position!!\n\xaf\xaf Press any key to continue!!");
 		getch();
 		return 0;
 
@@ -729,21 +730,6 @@ void tampilanDraw(){
  	printf("\t\t\t    ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ  \n");
 }
 
-void loading()//modul untuk menapilkan tampilan loading
-{ 
-	int x = 28, y = 13, n;
-	warnateks(WHITE);
-	gotoxy(x,14); printf("\t\t\t     Please Wait");
-	gotoxy(x,15);  printf("\t\tษออออออออออออออออออออออออออออออออออออป");
-	gotoxy(x,16);printf("\t\tบ                                    บ");
-	gotoxy(x,17);printf("\t\tศออออออออออออออออออออออออออออออออออออผ");
-	for(n=42;n<=75;n++){
-		gotoxy(n,16);
-		printf("Û");
-		kecepatan(0.04);
-	};
-}
-
 void loadingScreen(){
 	tampilanSOS();
 	loading();
@@ -834,4 +820,19 @@ void gotoxy(int x, int y) {
     coord.Y = y;
      
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+void loading()//modul untuk menapilkan tampilan loading
+{ 
+	int x = 28, y = 13, n;
+	warnateks(WHITE);
+	gotoxy(x,14); printf("\t\t\t     Please Wait");
+	gotoxy(x,15);  printf("\t\tษออออออออออออออออออออออออออออออออออออป");
+	gotoxy(x,16);printf("\t\tบ                                    บ");
+	gotoxy(x,17);printf("\t\tศออออออออออออออออออออออออออออออออออออผ");
+	for(n=42;n<=75;n++){
+		gotoxy(n,16);
+		printf("Û");
+		kecepatan(0.04);
+	};
 }
