@@ -46,10 +46,10 @@ int checkWin();				//Modul ini bertujuan untuk mengecek pemenang dalam permainan
 int checkFreeSpace();		//Modul ini bertujuan untuk mengecek apakah papan SOS masih ada yang kosong atau tidak
 void hasilPertandingan();	//Modul ini digunakan untuk menampilkan hasil pertandingan setelah game berakhir
 void gameOver();			//Modul ini bertujuan untuk menampilkan “game over” ketika permainan sudah berakhir (tidak ada papan kosong yang tersisa)
-void gotoxy(int x, int y);	
-void warnateks(int warna);
+void gotoxy(int x, int y);	//Modul ini bertujuan untuk menempatkan kursor ditempat yang diinginkan.
+void warnateks(int warna);	//Modul yang berfungsi untuk memberi warna ke karakter
 void kecepatan(float seconds);
-void loading();		
+void loading();				//Modul untuk menapilkan tampilan loading
 void loadingScreen();				
 
 char sos[8][8];				//Variabel ini digunakan untuk menyimpan huruf S atau O pada papan SOS
@@ -471,20 +471,20 @@ Jika belum terbentuk akan mengembalikan nilai 0
 =========================================================================*/  
 int controlSOS() {
 	if (sos[sRow - 1][sCol - 1] == 'S') {
-		if (sos[sRow - 3][sCol - 3] == 'S' && sos[sRow - 2][sCol - 2] == 'O') return 1;
-		if (sos[sRow - 3][sCol - 1] == 'S' && sos[sRow - 2][sCol - 1] == 'O') return 1;
-		if (sos[sRow - 3][sCol + 1] == 'S' && sos[sRow - 2][sCol] == 'O') return 1;
-		if (sos[sRow - 1][sCol - 3] == 'S' && sos[sRow - 1][sCol - 2] == 'O') return 1;
-		if (sos[sRow - 1][sCol + 1] == 'S' && sos[sRow - 1][sCol] == 'O') return 1;
-		if (sos[sRow + 1][sCol - 3] == 'S' && sos[sRow][sCol - 2] == 'O') return 1;
-		if (sos[sRow + 1][sCol - 1] == 'S' && sos[sRow][sCol - 1] == 'O') return 1;
-		if (sos[sRow + 1][sCol + 1] == 'S' && sos[sRow][sCol] == 'O') return 1;
+		if (sos[sRow - 3][sCol - 3] == 'S' && sos[sRow - 2][sCol - 2] == 'O') return 1; //diagonal kiri atas
+		if (sos[sRow - 3][sCol - 1] == 'S' && sos[sRow - 2][sCol - 1] == 'O') return 1; //vertikal atas
+		if (sos[sRow - 3][sCol + 1] == 'S' && sos[sRow - 2][sCol] == 'O') return 1;		//diagonal kanan atas
+		if (sos[sRow - 1][sCol - 3] == 'S' && sos[sRow - 1][sCol - 2] == 'O') return 1;	//horizontal kiri
+		if (sos[sRow - 1][sCol + 1] == 'S' && sos[sRow - 1][sCol] == 'O') return 1;		//horizontal kanan
+		if (sos[sRow + 1][sCol - 3] == 'S' && sos[sRow][sCol - 2] == 'O') return 1;		//diagonal kiri bawah
+		if (sos[sRow + 1][sCol - 1] == 'S' && sos[sRow][sCol - 1] == 'O') return 1;		//vertikal bawah 
+		if (sos[sRow + 1][sCol + 1] == 'S' && sos[sRow][sCol] == 'O') return 1;			//diagonal kanan bawah
 	}
 	else {
-		if (sos[sRow - 2][sCol - 2] == 'S' && sos[sRow][sCol] == 'S') return 1;
-		if (sos[sRow - 2][sCol - 1] == 'S' && sos[sRow][sCol - 1] == 'S') return 1;
-		if (sos[sRow - 2][sCol] == 'S' && sos[sRow][sCol - 2] == 'S') return 1;
-		if (sos[sRow - 1][sCol - 2] == 'S' && sos[sRow - 1][sCol] == 'S') return 1;
+		if (sos[sRow - 2][sCol - 2] == 'S' && sos[sRow][sCol] == 'S') return 1;			//diagonal
+		if (sos[sRow - 2][sCol - 1] == 'S' && sos[sRow][sCol - 1] == 'S') return 1;		//vertikal
+		if (sos[sRow - 2][sCol] == 'S' && sos[sRow][sCol - 2] == 'S') return 1;			//diagonal
+		if (sos[sRow - 1][sCol - 2] == 'S' && sos[sRow - 1][sCol] == 'S') return 1;		//horizontal
 	}
 	return 0;
 }
@@ -498,62 +498,51 @@ return 0 jika kondisi yang ada pada modul ini tidak terpenuhi
 ==================================================================================*/
 int controlBot(){
 	/*Untuk Computer menyimpan huruf O pada papan*/
-	if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow - 1][sCol + 1] == 'S'){
-		symbol = 'O';	
+	if(sos[sRow - 2][sCol - 2] == 'S' && sos[sRow][sCol] == 'S'){
+		symbol = 'O';	//diagonal 
 		return 1;
-	}else if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow - 1][sCol - 3] == 'S'){
-		symbol = 'O'; 
+	}else if(sos[sRow - 2][sCol - 1] == 'S' && sos[sRow][sCol - 1] == 'S'){
+		symbol = 'O';	//vertikal
 		return 1;
-	}else if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow + 1][sCol - 1] == 'S'){
-		symbol = 'O';	
+	}else if(sos[sRow - 2][sCol] == 'S' && sos[sRow][sCol - 2] == 'S'){
+		symbol = 'O';	//diagonal
 		return 1;
-	}else if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow - 3][sCol - 1] == 'S'){
-		symbol = 'O'; 
-		return 1;
-	}else if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow - 3][sCol + 1] == 'S'){
-		symbol = 'O'; 
-		return 1;
-	}else if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow + 1][sCol + 1] == 'S'){
-		symbol = 'O'; 
-		return 1;
-	}else if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow + 1][sCol - 3] == 'S'){
-		symbol = 'O'; 
-		return 1;
-	}else if(sos[sRow - 1][sCol - 1] == 'S' && sos[sRow - 3][sCol - 3] == 'S'){
-		symbol = 'O'; 
+	}else if(sos[sRow - 1][sCol - 2] == 'S' && sos[sRow - 1][sCol] == 'S'){
+		symbol = 'O';	//horizontal
 		return 1;
 	}
+
 	/*Untuk Computer menyimpan huruf S pada papan*/
 	if (sos[sRow - 3][sCol - 3] == 'S' && sos[sRow - 2][sCol - 2] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//diagonal
 		return 1;	
 	} 
 	if (sos[sRow - 3][sCol - 1] == 'S' && sos[sRow - 2][sCol - 1] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//vertikal
 		return 1;
 	} 
 	if (sos[sRow - 3][sCol + 1] == 'S' && sos[sRow - 2][sCol] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//diagonal
 		return 1;	
 	} 
 	if (sos[sRow - 1][sCol - 3] == 'S' && sos[sRow - 1][sCol - 2] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//horizontal
 		return 1;
 	} 
 	if (sos[sRow - 1][sCol + 1] == 'S' && sos[sRow - 1][sCol] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//horizontal
 		return 1;	
 	}
 	if (sos[sRow + 1][sCol - 3] == 'S' && sos[sRow][sCol - 2] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//diagonal
 		return 1;
 	} 
 	if (sos[sRow + 1][sCol - 1] == 'S' && sos[sRow][sCol - 1] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//vertikal
 		return 1;
 	} 
 	if (sos[sRow + 1][sCol + 1] == 'S' && sos[sRow][sCol] == 'O'){
-		symbol = 'S';
+		symbol = 'S';	//diagonal
 		return 1;
 	} 		
 	return 0;
