@@ -28,7 +28,7 @@ void tampilanMenu();		//Modul ini bertujuan untuk menampilkan tampilan menu
 void tampilModePermainan();	//Modul ini bertujuan untuk menampilkan mode permainan
 void tampilanLevel();		//Modul ini bertujuan untuk menampilkan beberapa level dalam permainan SOS dan user diharuskan untuk memilih level untuk memulai permainan SOS ini
 void tampilanSOS();			//Modul ini untuk menampilkan gambar SOS berfungsi sebagai variasi pada User Interface
-void tampilanMenang();		//Modul ini bertujuan untuk menampilkan kondisi ketika menang
+void tampilanMenang(char *nameWinner, int scoreWinner);	//Modul ini bertujuan untuk menampilkan kondisi ketika menang
 void tampilanDraw();		//Modul ini bertujuan untuk menampilkan kondisi ketika tidak ada pemenang (draw/seri)
 void howToPlay();			//Modul ini bertujuan untuk menampilkan how to play yang diambil dari file How To Play.txt	
 void papanSOS();			//Modul ini bertujuan untuk menampilkan papan permainan SOS
@@ -42,7 +42,7 @@ int takeInput(); 			//Modul ini bertujuan untuk user menginputkan huruf S atau O
 int controlSOS();			//Modul ini bertujuan untuk mengecek SOS sudah terbentuk atau belum
 int controlBot();			//Modul ini bertujuan untuk computer menyimpan huruf S atau O pada kondisi tertentu
 void compMove();			//Modul ini bertujuan untuk alur proses computer pada saat melawan user modul ini hanya akan dipanggil di mode player vs computer
-int checkWin();				//Modul ini bertujuan untuk mengecek pemenang dalam permainan SOS
+int checkWin(char *nameWinner, int *scoreWinner); //Modul ini bertujuan untuk mengecek pemenang dalam permainan SOS
 int checkFreeSpace();		//Modul ini bertujuan untuk mengecek apakah papan SOS masih ada yang kosong atau tidak
 void hasilPertandingan();	//Modul ini digunakan untuk menampilkan hasil pertandingan setelah game berakhir
 void gameOver();			//Modul ini bertujuan untuk menampilkan “game over” ketika permainan sudah berakhir (tidak ada papan kosong yang tersisa)
@@ -56,7 +56,6 @@ char sos[8][8];				//Variabel ini digunakan untuk menyimpan huruf S atau O pada 
 int scores[2] = { 0,0 }; 	//Variabel ini digunakan untuk menyimpan skor para pemain
 int currentPlayer = 0; 		//Variabel ini digunakan untuk menentukan giliran pemain.
 char name[2][20]; 			//Variabel ini digunakan untuk menyimpan nama dari setiap pemain
-char nameWinner[20];		//Variabel ini digunakan untuk menampung nama dari pemenang game SOS. Nama ini akan ditampilkan ketika permainan sudah selesai dan diketahui pemenangnya.
 int n, 						//Variabel ini digunakan untuk mendefinisikan banyaknya baris dan kolom pada papan SOS.
 	sCol, 					//Variabel ini digunakan untuk menyimpan pilihan kolom yang diinput oleh user. Selain digunakan untuk menyimpan pilihan kolom yang diinput oleh user, variabel ini juga digunakan untuk computer dalam merandom kolom
 	sRow;					//Variabel ini digunakan untuk menyimpan pilihan baris yang diinput oleh user. Selain digunakan untuk menyimpan pilihan baris yang diinput oleh user, variabel ini juga digunakan untuk computer dalam merandom baris
@@ -64,27 +63,27 @@ char symbol;				//Variabel ini digunakan untuk computer menyimpan huruf (S/O) pa
 
 /*Seluruh alur proses permainan dari mulai awal hingga akhir berada pada modul utama (main program)*/
 int main() {
-	int OptionFromUser;		//Variabel ini digunakan untuk pada saat user ingin pindah dari satu tampilan ke tampilan lain
+	char OptionFromUser;		//Variabel ini digunakan untuk pada saat user ingin pindah dari satu tampilan ke tampilan lain
 	
  	loadingScreen();
  	do {					
  		tampilanMenu();
  		gotoxy(76,20);
- 		scanf("%d", &OptionFromUser);
-  		if(OptionFromUser == 1) {
+ 		scanf(" %c", &OptionFromUser);
+  		if(OptionFromUser == '1') {
    			do{			
    				tampilModePermainan();
 	 			gotoxy(81,15);
- 				scanf("%d", &OptionFromUser);
-				if(OptionFromUser == 1) {
+ 				scanf(" %c", &OptionFromUser);
+				if(OptionFromUser == '1') {
 	   				InputNameFromUser1();
 	   				do{	
 	   					tampilanLevel();
 						scores[0] = 0;
 						scores[1] = 0;
 			   			gotoxy(86,19);
- 						scanf("%d", &OptionFromUser);						
-						if(OptionFromUser == 1){
+ 						scanf(" %c", &OptionFromUser);						
+						if(OptionFromUser == '1'){
 							n = 3;
 							scoreBoard();
 							resetBoard();
@@ -92,7 +91,7 @@ int main() {
 							gameOver();
 							hasilPertandingan();													
 			   				system("pause");
-						}else if(OptionFromUser == 2){
+						}else if(OptionFromUser == '2'){
 							n = 5;
 							scoreBoard();
 			  				resetBoard();
@@ -100,7 +99,7 @@ int main() {
 							gameOver();
 							hasilPertandingan();
 							system("pause");
-						}else if(OptionFromUser == 3){
+						}else if(OptionFromUser == '3'){
 							n = 7;
 							scoreBoard();
 			  				resetBoard();
@@ -109,8 +108,8 @@ int main() {
 							hasilPertandingan();
 							system("pause");		
 						}
-			   				}while(OptionFromUser != 0);	
-	  			}else if(OptionFromUser == 2){
+			   				}while(OptionFromUser != '0');	
+	  			}else if(OptionFromUser == '2'){
 	  				InputNameFromUser2();
 	  				scores[0] = 0;
 					scores[1] = 0;
@@ -122,16 +121,16 @@ int main() {
 					hasilPertandingan();					
 					system("pause");
 	  			}
-		   			}while(OptionFromUser != 0); 		
-  		}else if(OptionFromUser == 2){
+		   			}while(OptionFromUser != '0'); 		
+  		}else if(OptionFromUser == '2'){
   			do{				
   				howToPlay();
-  				scanf("%d", &OptionFromUser);			
-			  }while(OptionFromUser != 0);
-		}else if(OptionFromUser == 3){
+  				scanf(" %c", &OptionFromUser);			
+			  }while(OptionFromUser != '0');
+		}else if(OptionFromUser == '3'){
    			exit(1);
   		}	
-			}while(OptionFromUser != 3);
+			}while(OptionFromUser != '3');
  	return 0;
 }
 
@@ -608,12 +607,14 @@ Modul ini bertujuan untuk mengecek pemenang dalam permainan SOS
 return 1 berarti terdapat pemenang dalam permainan SOS
 return 0 berarti tidak terdapat pemenang (seri/draw)
 =========================================================================*/
-int checkWin(){
+int checkWin(char *nameWinner, int *scoreWinner){
 	if(scores[0] > scores[1]){
 		strcpy(nameWinner, name[0]);
+		*scoreWinner = scores[0];
 		return 1;
 	}else if(scores[0] < scores[1]){
 		strcpy(nameWinner, name[1]);
+		*scoreWinner = scores[1];
 		return 1;
 	}else{
 		return 0;
@@ -678,7 +679,7 @@ modul hasilPertandingan()
 I.S : Tampilan saat menang tidak tampil
 F.S : Tampilan saat menang tampil
 =============================================================================================*/
-void tampilanMenang(){
+void tampilanMenang(char *nameWinner, int scoreWinner){
 		printf("\n\n\n\n\n");
 		printf("\t\t\t\t\t     ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ \n");
 		printf("\t\t\t\t\t    Ы                         Ы      \n");
@@ -696,7 +697,7 @@ void tampilanMenang(){
 		printf("\t\t\t\t\t          ________________     \n");
 		printf("\t\t\t\t\t        ____________________   \n");
 		warnateks(WHITE);
-		printf("\n\t\t\t\t\t Congratulation %s YOU WIN!!\n", nameWinner);
+		printf("\n\t\t\t\t\t Congratulation %s YOU WIN!! with %d Point\n", nameWinner, scoreWinner);
 }
 
 
@@ -784,12 +785,13 @@ I.S : Hasil pertandingan belum diketahui
 F.S : Hasil pertandingan diketahui
 ===============================================================================*/
 void hasilPertandingan(){
-	//buat pvc
-	int win = checkWin();
+	int scoreWinner;		//Variabel ini digunakan untuk menampung score dari pemenang game SOS. Score ini akan ditampilkan ketika permainan sudah selesai dan diketahui pemenangnya.
+	char nameWinner[20];	//Variabel ini digunakan untuk menampung nama dari pemenang game SOS. Nama ini akan ditampilkan ketika permainan sudah selesai dan diketahui pemenangnya.
+	int win = checkWin(nameWinner, &scoreWinner);
 	system("cls");
 	warnateks(LIGHT_YELLOW);
 	if(win){
-		tampilanMenang();
+		tampilanMenang(nameWinner, scoreWinner);
 	}else{
 		tampilanDraw();
 	}
