@@ -70,12 +70,12 @@ int main() {
  		tampilanMenu();
  		gotoxy(76,20);
  		scanf(" %c", &OptionFromUser);
-  		if(OptionFromUser == '1') {
+  		if(OptionFromUser == '1') {		//user menuju ke mode permainan
    			do{			
    				tampilModePermainan();
 	 			gotoxy(81,15);
  				scanf(" %c", &OptionFromUser);
-				if(OptionFromUser == '1') {
+				if(OptionFromUser == '1') {		//user memilih mode player vs computer
 	   				InputNameFromUser1();
 	   				do{	
 	   					tampilanLevel();
@@ -83,7 +83,7 @@ int main() {
 						scores[1] = 0;
 			   			gotoxy(86,19);
  						scanf(" %c", &OptionFromUser);						
-						if(OptionFromUser == '1'){
+						if(OptionFromUser == '1'){		//user memilih level 1
 							n = 3;
 							scoreBoard();
 							resetBoard();
@@ -91,7 +91,7 @@ int main() {
 							gameOver();
 							hasilPertandingan();													
 			   				system("pause");
-						}else if(OptionFromUser == '2'){
+						}else if(OptionFromUser == '2'){	//user memilih level 2
 							n = 5;
 							scoreBoard();
 			  				resetBoard();
@@ -99,7 +99,7 @@ int main() {
 							gameOver();
 							hasilPertandingan();
 							system("pause");
-						}else if(OptionFromUser == '3'){
+						}else if(OptionFromUser == '3'){	//user memilih level 3
 							n = 7;
 							scoreBoard();
 			  				resetBoard();
@@ -108,8 +108,8 @@ int main() {
 							hasilPertandingan();
 							system("pause");		
 						}
-			   				}while(OptionFromUser != '0');	
-	  			}else if(OptionFromUser == '2'){
+			   				}while(OptionFromUser != '0');	//jika user menginput 0 maka akan go to main menu
+	  			}else if(OptionFromUser == '2'){	//user memilih mode player vs player
 	  				InputNameFromUser2();
 	  				scores[0] = 0;
 					scores[1] = 0;
@@ -121,16 +121,16 @@ int main() {
 					hasilPertandingan();					
 					system("pause");
 	  			}
-		   			}while(OptionFromUser != '0'); 		
-  		}else if(OptionFromUser == '2'){
+		   			}while(OptionFromUser != '0'); 	//jika user menginput 0 maka akan go to main menu
+  		}else if(OptionFromUser == '2'){	//user menuju ke how to play
   			do{				
   				howToPlay();
   				scanf(" %c", &OptionFromUser);			
-			  }while(OptionFromUser != '0');
-		}else if(OptionFromUser == '3'){
+			  }while(OptionFromUser != '0');	//jika user menginput 0 maka akan go to main menu
+		}else if(OptionFromUser == '3'){	//user keluar dari program
    			exit(1);
   		}	
-			}while(OptionFromUser != '3');
+			}while(OptionFromUser != '3');	//ulangi selama user tidak keluar dari program
  	return 0;
 }
 
@@ -208,7 +208,7 @@ void howToPlay(){
 	if(how_to_play == NULL){
 		printf("File Doesn't Exist");
 	}else {
-		while(fscanf(how_to_play,"%[^\n]%*c", isiHowToPlay) == 1){
+		while(fscanf(how_to_play,"%[^\n]%*c", isiHowToPlay) == 1){	//selama isi file masih ada
 			printf("\n%s\n", isiHowToPlay);
 		}
 	}
@@ -354,7 +354,7 @@ void prosesInGamePvP(){
 		if (input) {
 			int point = controlSOS();
 			if (!point) {
-				currentPlayer = (currentPlayer + 1) % 2;
+				currentPlayer = (currentPlayer + 1) % 2;	//giliran pemain berganti
 			}
 			else {
 				scores[currentPlayer] = scores[currentPlayer] + 1;
@@ -384,7 +384,7 @@ void prosesInGamePvC(){
 			if (input){
 				int point = controlSOS();
 				if (!point) {
-					currentPlayer = (currentPlayer + 1) % 2;
+					currentPlayer = (currentPlayer + 1) % 2;	//giliran pemain berganti
 				}
 				else {
 					scores[currentPlayer] = scores[currentPlayer] + 1;
@@ -402,7 +402,7 @@ void prosesInGamePvC(){
 				printf("\n\xaf\xaf\xaf Computer take point");
 				getch();
 			}else{
-				currentPlayer = (currentPlayer + 1) % 2;
+				currentPlayer = (currentPlayer + 1) % 2;	//giliran pemain berganti
 				printf("\n\xaf\xaf\xaf Computer choose %c in [%d][%d]", symbol, sRow, sCol);
 				getch();
 			}
@@ -429,9 +429,9 @@ int takeInput() {
 			printf("\n\n\xaf\xaf Invalid position!!\n\xaf\xaf Press any key to continue!!");
 			getch();
 		}
-	}while(!(sRow > 0 && sRow <= n && sCol > 0 && sCol <= n));
+	}while(!(sRow > 0 && sRow <= n && sCol > 0 && sCol <= n));	//ulangi selama user salah dalam mengisikan baris dan kolom
 
-	switch (sos[sRow - 1][sCol - 1]) {
+	switch (sos[sRow - 1][sCol - 1]) {	//jika user menginputkan huruf S atau O pada kotak yang sudah terisi
 
 	case 'S':
 	case 'O':   
@@ -557,19 +557,19 @@ F.S : - alur proses computer pada saat melawan user berjalan sesuai harapan
 	  - computer dapat melakukan pergerakan pada saat melawan user
 =============================================================================================================*/
 void compMove(){
-	int x;	//untuk huruf O atau s
+	int x;
 	system("cls");
 	scoreBoard();
 	papanSOS();
 	srand(time(NULL));
 	
 	do{
-		//baris kolom
+		/*merandom baris dan kolom*/
 		sRow = (rand() % n) + 1;
 		sCol = (rand() % n) + 1;		
 	}while(sos[sRow - 1][sCol - 1] != ' ');		
 	if(!controlBot()){
-		x = rand() % 2;
+		x = rand() % 2; //merandom huruf S atau O
 		if(x == 0){
 			symbol = 'O';
 		}else{
